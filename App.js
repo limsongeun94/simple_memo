@@ -12,12 +12,14 @@ import { useState } from "react";
 import { color } from "./color.js";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const RenderItem = ({ item }) => {
   return (
     <View style={styles.wrapper}>
-      <Text>{item.time}</Text>
-      <Text>{item.contents}</Text>
+      <Text style={{ fontWeight: 500 }}>{item.time}</Text>
+      <Text style={{ fontSize: 11, color: "gray" }}>{item.date}</Text>
+      <Text style={{ marginTop: 5 }}>{item.contents}</Text>
     </View>
   );
 };
@@ -27,9 +29,15 @@ const HomeScreen = ({ navigation }) => {
     {
       id: 0,
       time: "1시 20분",
+      date: "2023년 4월 21일",
       contents: "나는 밥을 먹었다.",
     },
-    { id: 1, time: "12시 10분", contents: "나는 만두국을 먹었다." },
+    {
+      id: 1,
+      time: "12시 10분",
+      date: "2023년 4월 22일",
+      contents: "나는 만두국을 먹었다.",
+    },
   ];
   return (
     <View style={styles.container}>
@@ -51,6 +59,15 @@ const HomeScreen = ({ navigation }) => {
 
 const InputScreen = ({ navigation }) => {
   const [focus, setFocus] = useState(false);
+  const [text, setText] = useState("");
+  const onChangeText = (payload) => setText(payload);
+  const [memo, setMemo] = useState({});
+  const addMemo = async () => {
+    if (text == "") {
+      return;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -60,6 +77,8 @@ const InputScreen = ({ navigation }) => {
         maxLength={150}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
+        onChangeText={onChangeText}
+        onSubmitEditing={addMemo}
         // onChangeText={(text) => onChangeText(text)}
         // value={value}
       />
