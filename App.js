@@ -10,7 +10,11 @@ import {
 } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { color } from "./color.js";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  useIsFocused,
+  StackActions,
+} from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import moment from "moment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -34,7 +38,10 @@ const RenderItem = (props) => {
         </TouchableOpacity>
       </View>
       <View style={menu ? styles.menu_visible : styles.menu_hide}>
-        <TouchableOpacity style={styles.dlete_update_btn}>
+        <TouchableOpacity
+          style={styles.dlete_update_btn}
+          onPress={() => props.onUpdate(item.id)}
+        >
           <Text>수정</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -49,6 +56,7 @@ const RenderItem = (props) => {
 };
 
 const HomeScreen = ({ navigation }) => {
+  const isFocused = useIsFocused();
   const [memo, setMemo] = useState([]);
 
   const showItems = async () => {
@@ -62,6 +70,14 @@ const HomeScreen = ({ navigation }) => {
       JSON.stringify(memo.filter((el) => el.id != id))
     );
     setMemo(memo.filter((el) => el.id != id));
+
+    const data = JSON.parse(await AsyncStorage.getItem("@key"));
+    setMemo(data);
+  };
+
+  const onUpdate = (id) => {
+    console.log("홈스크린", id);
+    navigation.navigate("Input", { id: id });
   };
 
   useEffect(() => {
@@ -73,7 +89,9 @@ const HomeScreen = ({ navigation }) => {
       <Text style={styles.header}>간단한 메모</Text>
       <FlatList
         data={memo}
-        renderItem={(item) => <RenderItem {...item} onDelete={onDelete} />}
+        renderItem={(item) => (
+          <RenderItem {...item} onDelete={onDelete} onUpdate={onUpdate} />
+        )}
         keyExtractor={(item) => item.id}
       />
       <TouchableOpacity
@@ -86,7 +104,8 @@ const HomeScreen = ({ navigation }) => {
   );
 };
 
-const InputScreen = ({ navigation }) => {
+const InputScreen = ({ route, navigation }) => {
+  const isFocused = useIsFocused();
   const input = useRef();
   const [focus, setFocus] = useState(false);
   const [text, setText] = useState("");
@@ -94,28 +113,57 @@ const InputScreen = ({ navigation }) => {
   const [memo, setMemo] = useState([]);
 
   const onSubmit = async () => {
-    if (text == "") {
-      return;
+    if (route.params?.id == undefined) {
+      if (text == "") {
+        return;
+      }
+      const listItem = {
+        id: Date.now(),
+        time: moment().format(`${"HH"}시 ${"mm"}분`),
+        date: moment().format(`${"YYYY"}년 ${"MM"}월 ${"DD"}일`),
+        contents: text,
+      };
+      setMemo([...memo, listItem]);
+      await AsyncStorage.setItem("@key", JSON.stringify([...memo, listItem]));
+      input.current.clear();
+      navigation.push("Home");
+    } else {
+      const findIndex = memo.findIndex((el) => el.id == route.params?.id);
+      const copyMemo = [...memo];
+      copyMemo[findIndex] = { ...copyMemo[findIndex], contents: text };
+      setMemo([...copyMemo]);
+      await AsyncStorage.setItem("@key", JSON.stringify([...copyMemo]));
+      await AsyncStorage.mergeItem("@key", JSON.stringify([...copyMemo]));
+      // input.current.clear();
+      // const pushAction = StackActions.push("Home");
+      // navigation.dispatch(pushAction);
+      // navigation.navigate("Home");
+      // navigation.replace("Home");
+      // navigation.dispatch(StackActions.replace("Home", { id: id }));
     }
-    const listItem = {
-      id: Date.now(),
-      time: moment().format(`${"HH"}시 ${"mm"}분`),
-      date: moment().format(`${"YYYY"}년 ${"MM"}월 ${"DD"}일`),
-      contents: text,
-    };
-    setMemo([...memo, listItem]);
-    await AsyncStorage.setItem("@key", JSON.stringify([...memo, listItem]));
-    input.current.clear();
-    navigation.push("Home");
   };
 
   const getItems = async () => {
     const data = JSON.parse(await AsyncStorage.getItem("@key"));
     setMemo(data);
   };
+
+  const setPrevContents = () => {
+    if (memo.length == 0) {
+      return;
+    } else {
+      const findIndex = memo.findIndex((el) => el.id == route.params?.id);
+      setText(memo[findIndex].contents);
+    }
+  };
+
   useEffect(() => {
     getItems();
-  }, []);
+  }, [isFocused]);
+
+  useEffect(() => {
+    setPrevContents();
+  }, [memo.length]);
 
   return (
     <View style={styles.container}>
@@ -127,6 +175,7 @@ const InputScreen = ({ navigation }) => {
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
         onChangeText={onChangeText}
+        value={text}
         ref={input}
       />
       <View style={styles.input_btn}>
@@ -181,8 +230,8 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     position: "absolute",
-    bottom: 130,
-    right: 65,
+    top: 20,
+    right: 35,
     elevation: 7,
   },
   add_btn_text: {
