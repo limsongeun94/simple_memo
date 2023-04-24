@@ -145,25 +145,14 @@ const InputScreen = ({ route, navigation }) => {
 
   const getItems = async () => {
     const data = JSON.parse(await AsyncStorage.getItem("@key"));
+    const findIndex = data.findIndex((el) => el.id == route.params?.id);
+    setText(data[findIndex].contents);
     setMemo(data);
-  };
-
-  const setPrevContents = () => {
-    if (memo.length == 0) {
-      return;
-    } else {
-      const findIndex = memo.findIndex((el) => el.id == route.params?.id);
-      setText(memo[findIndex].contents);
-    }
   };
 
   useEffect(() => {
     getItems();
   }, [isFocused]);
-
-  useEffect(() => {
-    setPrevContents();
-  }, [memo.length]);
 
   return (
     <View style={styles.container}>
