@@ -8,43 +8,72 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { color } from "./color.js";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import moment from "moment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const RenderItem = ({ item }) => {
+const RenderItem = (props) => {
+  const item = props.item;
+  const [menu, setMenu] = useState(false);
   return (
     <View style={styles.wrapper}>
-      <Text style={{ fontWeight: 500 }}>{item.time}</Text>
-      <Text style={{ fontSize: 11, color: "gray" }}>{item.date}</Text>
-      <Text style={{ marginTop: 5 }}>{item.contents}</Text>
+      <View>
+        <Text style={{ fontWeight: 500 }}>{item.time}</Text>
+        <Text style={{ fontSize: 11, color: "gray" }}>{item.date}</Text>
+        <Text style={{ marginTop: 5 }}>{item.contents}</Text>
+      </View>
+      <View>
+        <TouchableOpacity
+          hitSlop={{ top: 5, bottom: 5, left: 25, right: 25 }}
+          onPress={menu ? () => setMenu(false) : () => setMenu(true)}
+        >
+          <Text style={{ color: "gray", fontSize: 17 }}>⋮</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={menu ? styles.menu_visible : styles.menu_hide}>
+        <TouchableOpacity style={styles.dlete_update_btn}>
+          <Text>수정</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.dlete_update_btn}
+          onPress={() => props.onDelete(item.id)}
+        >
+          <Text>삭제</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const HomeScreen = ({ navigation }) => {
-  const memo_data = [
-    {
-      id: 0,
-      time: "1시 20분",
-      date: "2023년 4월 21일",
-      contents: "나는 밥을 먹었다.",
-    },
-    {
-      id: 1,
-      time: "12시 10분",
-      date: "2023년 4월 22일",
-      contents: "나는 만두국을 먹었다.",
-    },
-  ];
+  const [memo, setMemo] = useState([]);
+
+  const showItems = async () => {
+    const data = JSON.parse(await AsyncStorage.getItem("@key"));
+    setMemo(data);
+  };
+
+  const onDelete = async (id) => {
+    await AsyncStorage.setItem(
+      "@key",
+      JSON.stringify(memo.filter((el) => el.id != id))
+    );
+    setMemo(memo.filter((el) => el.id != id));
+  };
+
+  useEffect(() => {
+    showItems();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>간단한 메모</Text>
       <FlatList
-        data={memo_data}
-        renderItem={RenderItem}
+        data={memo}
+        renderItem={(item) => <RenderItem {...item} onDelete={onDelete} />}
         keyExtractor={(item) => item.id}
       />
       <TouchableOpacity
@@ -58,15 +87,35 @@ const HomeScreen = ({ navigation }) => {
 };
 
 const InputScreen = ({ navigation }) => {
+  const input = useRef();
   const [focus, setFocus] = useState(false);
   const [text, setText] = useState("");
   const onChangeText = (payload) => setText(payload);
-  const [memo, setMemo] = useState({});
-  const addMemo = async () => {
+  const [memo, setMemo] = useState([]);
+
+  const onSubmit = async () => {
     if (text == "") {
       return;
     }
+    const listItem = {
+      id: Date.now(),
+      time: moment().format(`${"HH"}시 ${"mm"}분`),
+      date: moment().format(`${"YYYY"}년 ${"MM"}월 ${"DD"}일`),
+      contents: text,
+    };
+    setMemo([...memo, listItem]);
+    await AsyncStorage.setItem("@key", JSON.stringify([...memo, listItem]));
+    input.current.clear();
+    navigation.push("Home");
   };
+
+  const getItems = async () => {
+    const data = JSON.parse(await AsyncStorage.getItem("@key"));
+    setMemo(data);
+  };
+  useEffect(() => {
+    getItems();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -78,12 +127,10 @@ const InputScreen = ({ navigation }) => {
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
         onChangeText={onChangeText}
-        onSubmitEditing={addMemo}
-        // onChangeText={(text) => onChangeText(text)}
-        // value={value}
+        ref={input}
       />
       <View style={styles.input_btn}>
-        <TouchableOpacity style={styles.submit_btn}>
+        <TouchableOpacity style={styles.submit_btn} onPress={onSubmit}>
           <Text style={styles.submit_btn_text}>등록</Text>
         </TouchableOpacity>
       </View>
@@ -125,6 +172,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 15,
     width: windowWidth - 60,
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   add_btn: {
     backgroundColor: color.cyan,
@@ -132,8 +181,9 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     position: "absolute",
-    bottom: 70,
-    right: 50,
+    bottom: 130,
+    right: 65,
+    elevation: 7,
   },
   add_btn_text: {
     backgroundColor: color.beige,
@@ -184,5 +234,21 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
     fontWeight: 400,
+  },
+  menu_hide: {
+    display: "none",
+  },
+  menu_visible: {
+    position: "absolute",
+    right: 25,
+    top: 20,
+  },
+  dlete_update_btn: {
+    width: 100,
+    height: 37,
+    justifyContent: "center",
+    paddingLeft: 7,
+    backgroundColor: color.beige,
+    elevation: 7,
   },
 });
