@@ -10,12 +10,9 @@ import {
 } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { color } from "./color.js";
-import {
-  NavigationContainer,
-  useIsFocused,
-  StackActions,
-} from "@react-navigation/native";
+import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { SafeAreaView } from "react-native-safe-area-context";
 import moment from "moment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -133,13 +130,8 @@ const InputScreen = ({ route, navigation }) => {
       copyMemo[findIndex] = { ...copyMemo[findIndex], contents: text };
       setMemo([...copyMemo]);
       await AsyncStorage.setItem("@key", JSON.stringify([...copyMemo]));
-      await AsyncStorage.mergeItem("@key", JSON.stringify([...copyMemo]));
-      // input.current.clear();
-      // const pushAction = StackActions.push("Home");
-      // navigation.dispatch(pushAction);
-      // navigation.navigate("Home");
-      // navigation.replace("Home");
-      // navigation.dispatch(StackActions.replace("Home", { id: id }));
+      input.current.clear();
+      navigation.push("Home");
     }
   };
 
@@ -156,6 +148,7 @@ const InputScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.header}>간단한 메모</Text>
       <TextInput
         style={focus ? styles.input_box_onfocus : styles.input_box_unfocus}
         multiline={true}
@@ -181,9 +174,15 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerMode: "none" }}>
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Input" component={InputScreen} />
+        <Stack.Screen
+          name="Input"
+          component={InputScreen}
+          options={({ route }) => {
+            route.params?.id;
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -200,9 +199,8 @@ const styles = StyleSheet.create({
     padding: 30,
   },
   header: {
-    fontSize: 20,
     marginVertical: 15,
-    fontSize: 24,
+    fontSize: 22,
   },
   wrapper: {
     backgroundColor: color.beige,
@@ -219,8 +217,8 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     position: "absolute",
-    top: 20,
-    right: 35,
+    bottom: 80,
+    right: 65,
     elevation: 7,
   },
   add_btn_text: {
