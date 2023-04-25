@@ -12,7 +12,6 @@ import { useEffect, useState, useRef } from "react";
 import { color } from "./color.js";
 import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { SafeAreaView } from "react-native-safe-area-context";
 import moment from "moment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
