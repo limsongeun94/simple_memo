@@ -6,6 +6,7 @@ import {
   Dimensions,
   TouchableOpacity,
   TextInput,
+  Image,
 } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { NavigationContainer, useIsFocused } from "@react-navigation/native";
@@ -81,6 +82,18 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>간단한 메모</Text>
+      <TouchableOpacity
+        style={styles.set_btn}
+        onPress={() => navigation.navigate("Set")}
+      >
+        <Image
+          style={{
+            width: 25,
+            height: 25,
+          }}
+          source={require("../setting_icon.png")}
+        />
+      </TouchableOpacity>
       <FlatList
         data={memo}
         renderItem={(item) => (

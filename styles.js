@@ -15,6 +15,18 @@ export default StyleSheet.create({
     marginVertical: 15,
     fontSize: 22,
   },
+  set_btn: {
+    position: "absolute",
+    right: 30,
+    top: 50,
+    // backgroundColor: color.cyan,
+    // width: 30,
+    // height: 30,
+    // borderRadius: 15,
+    // flex: 1,
+    // justifyContent: "center",
+    // alignItems: "center",
+  },
   wrapper: {
     backgroundColor: color.beige,
     marginVertical: 7,
@@ -99,5 +111,14 @@ export default StyleSheet.create({
     paddingLeft: 7,
     backgroundColor: color.beige,
     elevation: 7,
+  },
+  wrapper_set: {
+    backgroundColor: color.beige,
+    marginVertical: 7,
+    borderRadius: 20,
+    padding: 15,
+    width: windowWidth - 60,
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
 });
