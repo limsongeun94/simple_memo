@@ -13,12 +13,25 @@ import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles";
+import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
+import { darkModeState, fontFamilyState, fontSizeState } from "../state";
+import { color, color_dark } from "../color";
 
 const RenderItem = (props) => {
+  const darkModeS = useRecoilValue(darkModeState);
+  const fontFamilyS = useRecoilValue(fontFamilyState);
+  const fontSizeS = useRecoilValue(fontSizeState);
+
   const item = props.item;
   const [menu, setMenu] = useState(false);
   return (
-    <View style={styles.wrapper}>
+    <View
+      style={
+        darkModeS == "light"
+          ? styles.wrapper
+          : { ...styles.wrapper, backgroundColor: color_dark.deep_mute_violet }
+      }
+    >
       <View>
         <Text style={{ fontWeight: 500 }}>{item.time}</Text>
         <Text style={{ fontSize: 11, color: "gray" }}>{item.date}</Text>
@@ -81,10 +94,18 @@ const HomeScreen = ({ navigation }) => {
 
   useEffect(() => {
     showItems();
+    console.log(darkModeS);
   }, [isFocused]);
 
   return (
-    <View style={styles.container}>
+    <View
+      style={
+        // styles.container
+        darkModeS == "light"
+          ? styles.container
+          : { ...styles.container, backgroundColor: color_dark.deep_blue }
+      }
+    >
       <Text style={styles.header}>간단한 메모</Text>
       <TouchableOpacity
         style={styles.set_btn}
