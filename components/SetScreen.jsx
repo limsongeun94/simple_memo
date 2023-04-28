@@ -1,19 +1,11 @@
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { Text, View } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles.js";
 import { RadioButton } from "react-native-paper";
-import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { darkModeState, fontFamilyState, fontSizeState } from "../state.js";
 
 const SetScreen = () => {
@@ -21,10 +13,14 @@ const SetScreen = () => {
   const [fontFamily, setFontFamily] = useRecoilState(fontFamilyState);
   const [fontSize, setFontSize] = useRecoilState(fontSizeState); // small | medium | big
 
+  const darkModeS = useRecoilValue(darkModeState);
+  const fontFamilyS = useRecoilValue(fontFamilyState);
+  const fontSizeS = useRecoilValue(fontSizeState);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>간단한 메모</Text>
-      <View style={styles.wrapper_set}>
+    <View style={styles(darkModeS).container}>
+      <Text style={styles(darkModeS).header}>간단한 메모</Text>
+      <View style={styles(darkModeS).wrapper_set}>
         <Text style={{ marginBottom: 10, fontWeight: 500 }}>다크모드 설정</Text>
         <View>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -32,7 +28,7 @@ const SetScreen = () => {
               value="light"
               status={darkMode == "light" ? "checked" : "unchecked"}
               onPress={() => setDarkMode("light")}
-              color="#9BE3DE"
+              color="#719FB0"
             />
             <Text>라이트 모드</Text>
           </View>
@@ -41,16 +37,16 @@ const SetScreen = () => {
               value="dark"
               status={darkMode == "dark" ? "checked" : "unchecked"}
               onPress={() => setDarkMode("dark")}
-              color="#9BE3DE"
+              color="#719FB0"
             />
             <Text>다크 모드</Text>
           </View>
         </View>
       </View>
-      <View style={styles.wrapper_set}>
+      <View style={styles(darkModeS).wrapper_set}>
         <Text style={{ marginBottom: 10, fontWeight: 500 }}>글꼴 설정</Text>
       </View>
-      <View style={styles.wrapper_set}>
+      <View style={styles(darkModeS).wrapper_set}>
         <Text style={{ marginBottom: 10, fontWeight: 500 }}>
           글자 크기 설정
         </Text>
@@ -60,7 +56,7 @@ const SetScreen = () => {
               value="small"
               status={fontSize == "small" ? "checked" : "unchecked"}
               onPress={() => setFontSize("small")}
-              color="#9BE3DE"
+              color="#719FB0"
             />
             <Text>작게</Text>
           </View>
@@ -69,7 +65,7 @@ const SetScreen = () => {
               value="medium"
               status={fontSize == "medium" ? "checked" : "unchecked"}
               onPress={() => setFontSize("medium")}
-              color="#9BE3DE"
+              color="#719FB0"
             />
             <Text>중간</Text>
           </View>
@@ -78,7 +74,7 @@ const SetScreen = () => {
               vluae="big"
               status={fontSize == "big" ? "checked" : "unchecked"}
               onPress={() => setFontSize("big")}
-              color="#9BE3DE"
+              color="#719FB0"
             />
             <Text>크게</Text>
           </View>
