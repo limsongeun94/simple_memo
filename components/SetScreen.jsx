@@ -12,12 +12,14 @@ import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles.js";
-import { RadioButton, MD3LightTheme as DefaultTheme } from "react-native-paper";
+import { RadioButton } from "react-native-paper";
+import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
+import { darkModeState, fontFamilyState, fontSizeState } from "../state.js";
 
 const SetScreen = () => {
-  const [darkMode, setDarkMode] = useState("");
-  const [fontFamily, setFontFamily] = useState("");
-  const [fontSize, setFontSize] = useState("");
+  const [darkMode, setDarkMode] = useRecoilState(darkModeState);
+  const [fontFamily, setFontFamily] = useRecoilState(fontFamilyState);
+  const [fontSize, setFontSize] = useRecoilState(fontSizeState);
 
   return (
     <View style={styles.container}>
@@ -84,10 +86,6 @@ const SetScreen = () => {
       </View>
     </View>
   );
-};
-
-const theme = {
-  ...DefaultTheme,
 };
 
 export default SetScreen;

@@ -51,6 +51,10 @@ const RenderItem = (props) => {
 };
 
 const HomeScreen = ({ navigation }) => {
+  const darkModeS = useRecoilValue(darkModeState);
+  const fontFamilyS = useRecoilValue(fontFamilyState);
+  const fontSizeS = useRecoilValue(fontSizeState);
+
   const isFocused = useIsFocused();
   const [memo, setMemo] = useState([]);
 
