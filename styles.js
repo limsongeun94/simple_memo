@@ -13,7 +13,7 @@ const styles = (props) => {
   const myStyle = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: darkModeS == "light" ? color.pink : color_dark.charcoal,
+      backgroundColor: darkModeS == "light" ? color.pink : color_dark.deep_blue,
       alignItems: "center",
       justifyContent: "flex-start",
       padding: 30,
@@ -28,8 +28,7 @@ const styles = (props) => {
       top: 50,
     },
     wrapper: {
-      color: darkModeS == "light" ? "black" : "white", // 왜 안 되지?
-      backgroundColor: darkModeS == "light" ? color.beige : color_dark.somke,
+      backgroundColor: color.beige,
       marginVertical: 7,
       borderRadius: 20,
       padding: 15,
@@ -43,18 +42,18 @@ const styles = (props) => {
       height: 60,
       borderRadius: 30,
       position: "absolute",
-      bottom: 85,
-      right: 60,
+      bottom: 80,
+      right: 65,
       elevation: 7,
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
     },
     add_btn_text: {
       backgroundColor: color.beige,
       height: 40,
       width: 40,
       borderRadius: 20,
+      position: "absolute",
+      top: 10,
+      left: 10,
       fontSize: 25,
       fontWeight: 500,
       textAlign: "center",
@@ -106,16 +105,16 @@ const styles = (props) => {
       right: 25,
       top: 20,
     },
-    delete_update_btn: {
+    dlete_update_btn: {
       width: 100,
       height: 37,
       justifyContent: "center",
       paddingLeft: 7,
-      backgroundColor: darkModeS == "light" ? "white" : color_dark.dove,
+      backgroundColor: color.beige,
       elevation: 7,
     },
     wrapper_set: {
-      backgroundColor: darkModeS == "light" ? color.beige : color_dark.somke,
+      backgroundColor: color.beige,
       marginVertical: 7,
       borderRadius: 20,
       padding: 15,

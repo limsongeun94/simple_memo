@@ -1,12 +1,13 @@
 export const color = {
-  cyan: "#719FB0",
+  cyan: "#9BE3DE",
+  cyan_light: "#BEEBE9",
   beige: "#FFFDF9",
   pink: "#FFE3ED",
 };
 
 export const color_dark = {
-  charcoal: "#393646",
-  somke: "#4F4557",
-  dove: "#6D5D6E",
-  beige: "#F4EEE0",
+  deep_blue: "#3F3B6C",
+  deep_mute_violet: "#624F82",
+  mute_violet: "#9F73AB",
+  mute_cyan: "#A3C7D6",
 };

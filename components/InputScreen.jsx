@@ -1,19 +1,12 @@
 import { Text, View, TouchableOpacity, TextInput } from "react-native";
 import { useEffect, useState, useRef } from "react";
-import { useIsFocused } from "@react-navigation/native";
+import { NavigationContainer, useIsFocused } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import moment from "moment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles.js";
-import { useRecoilValue } from "recoil";
-import { darkModeState, fontFamilyState, fontSizeState } from "../state";
 
-const InputScreen = ({ route, navigation }, props) => {
-  const darkMode = useRecoilValue(darkModeState);
-  const fontFamilyS = useRecoilValue(fontFamilyState);
-  const fontSizeS = useRecoilValue(fontSizeState);
-
-  const darkModeS = props.darkMode;
-
+const InputScreen = ({ route, navigation }) => {
   const isFocused = useIsFocused();
   const input = useRef();
   const [focus, setFocus] = useState(false);
@@ -59,8 +52,8 @@ const InputScreen = ({ route, navigation }, props) => {
   }, [isFocused]);
 
   return (
-    <View style={styles(darkModeS).container}>
-      <Text style={styles(darkModeS).header}>간단한 메모</Text>
+    <View style={styles.container}>
+      <Text style={styles.header}>간단한 메모</Text>
       <TextInput
         style={focus ? styles.input_box_onfocus : styles.input_box_unfocus}
         multiline={true}
@@ -73,10 +66,7 @@ const InputScreen = ({ route, navigation }, props) => {
         ref={input}
       />
       <View style={styles.input_btn}>
-        <TouchableOpacity
-          style={styles(darkModeS).submit_btn}
-          onPress={onSubmit}
-        >
+        <TouchableOpacity style={styles.submit_btn} onPress={onSubmit}>
           <Text style={styles.submit_btn_text}>등록</Text>
         </TouchableOpacity>
       </View>

@@ -1,9 +1,19 @@
-import { FlatList, Text, View, TouchableOpacity, Image } from "react-native";
-import { useEffect, useState } from "react";
-import { useIsFocused } from "@react-navigation/native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  TouchableOpacity,
+  TextInput,
+  Image,
+} from "react-native";
+import { useEffect, useState, useRef } from "react";
+import { NavigationContainer, useIsFocused } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles";
-import { useRecoilValue } from "recoil";
+import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 import { darkModeState, fontFamilyState, fontSizeState } from "../state";
 
 const RenderItem = (props) => {
@@ -14,7 +24,7 @@ const RenderItem = (props) => {
   const item = props.item;
   const [menu, setMenu] = useState(false);
   return (
-    <View style={styles(darkModeS).wrapper}>
+    <View style={styles.wrapper}>
       <View>
         <Text style={{ fontWeight: 500 }}>{item.time}</Text>
         <Text style={{ fontSize: 11, color: "gray" }}>{item.date}</Text>
@@ -28,19 +38,15 @@ const RenderItem = (props) => {
           <Text style={{ color: "gray", fontSize: 17 }}>⋮</Text>
         </TouchableOpacity>
       </View>
-      <View
-        style={
-          menu ? styles(darkModeS).menu_visible : styles(darkModeS).menu_hide
-        }
-      >
+      <View style={menu ? styles.menu_visible : styles.menu_hide}>
         <TouchableOpacity
-          style={styles(darkModeS).delete_update_btn}
+          style={styles.dlete_update_btn}
           onPress={() => props.onUpdate(item.id)}
         >
           <Text>수정</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles(darkModeS).delete_update_btn}
+          style={styles.dlete_update_btn}
           onPress={() => props.onDelete(item.id)}
         >
           <Text>삭제</Text>
@@ -86,9 +92,9 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles(darkModeS).container}>
-      <Text style={styles(darkModeS).header}>간단한 메모</Text>
+      <Text style={styles.header}>간단한 메모</Text>
       <TouchableOpacity
-        style={styles(darkModeS).set_btn}
+        style={styles.set_btn}
         onPress={() => navigation.navigate("Set")}
       >
         <Image
@@ -107,10 +113,10 @@ const HomeScreen = ({ navigation }) => {
         keyExtractor={(item) => item.id}
       />
       <TouchableOpacity
-        style={styles(darkModeS).add_btn}
+        style={styles.add_btn}
         onPress={() => navigation.navigate("Input")}
       >
-        <Text style={styles(darkModeS).add_btn_text}>+</Text>
+        <Text style={styles.add_btn_text}>+</Text>
       </TouchableOpacity>
     </View>
   );
