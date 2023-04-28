@@ -17,9 +17,9 @@ import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 import { darkModeState, fontFamilyState, fontSizeState } from "../state.js";
 
 const SetScreen = () => {
-  const [darkMode, setDarkMode] = useRecoilState(darkModeState);
+  const [darkMode, setDarkMode] = useRecoilState(darkModeState); // light | dark
   const [fontFamily, setFontFamily] = useRecoilState(fontFamilyState);
-  const [fontSize, setFontSize] = useRecoilState(fontSizeState);
+  const [fontSize, setFontSize] = useRecoilState(fontSizeState); // small | medium | big
 
   return (
     <View style={styles.container}>
