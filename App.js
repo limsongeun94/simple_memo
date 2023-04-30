@@ -4,13 +4,7 @@ import SetScreen from "./components/SetScreen.jsx";
 import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil";
+import { RecoilRoot } from "recoil";
 
 const Stack = createStackNavigator();
 

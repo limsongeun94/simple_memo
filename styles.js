@@ -28,7 +28,6 @@ const styles = (props) => {
       top: 50,
     },
     wrapper: {
-      color: darkModeS == "light" ? "black" : "white", // 왜 안 되지?
       backgroundColor: darkModeS == "light" ? color.beige : color_dark.somke,
       marginVertical: 7,
       borderRadius: 20,
@@ -96,7 +95,7 @@ const styles = (props) => {
     submit_btn_text: {
       color: "white",
       fontSize: 20,
-      fontWeight: 400,
+      fontWeight: 500,
     },
     menu_hide: {
       display: "none",

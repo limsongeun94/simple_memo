@@ -8,5 +8,5 @@ export const color_dark = {
   charcoal: "#393646",
   somke: "#4F4557",
   dove: "#6D5D6E",
-  beige: "#F4EEE0",
+  beige: "#DFD3C3",
 };

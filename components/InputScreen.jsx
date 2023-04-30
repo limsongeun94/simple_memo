@@ -7,12 +7,10 @@ import styles from "../styles.js";
 import { useRecoilValue } from "recoil";
 import { darkModeState, fontFamilyState, fontSizeState } from "../state";
 
-const InputScreen = ({ route, navigation }, props) => {
-  const darkMode = useRecoilValue(darkModeState);
+const InputScreen = ({ route, navigation }) => {
+  const darkModeS = useRecoilValue(darkModeState);
   const fontFamilyS = useRecoilValue(fontFamilyState);
   const fontSizeS = useRecoilValue(fontSizeState);
-
-  const darkModeS = props.darkMode;
 
   const isFocused = useIsFocused();
   const input = useRef();
@@ -62,7 +60,11 @@ const InputScreen = ({ route, navigation }, props) => {
     <View style={styles(darkModeS).container}>
       <Text style={styles(darkModeS).header}>간단한 메모</Text>
       <TextInput
-        style={focus ? styles.input_box_onfocus : styles.input_box_unfocus}
+        style={
+          focus
+            ? styles(darkModeS).input_box_onfocus
+            : styles(darkModeS).input_box_unfocus
+        }
         multiline={true}
         numberOfLines={7}
         maxLength={150}
@@ -72,12 +74,12 @@ const InputScreen = ({ route, navigation }, props) => {
         value={text}
         ref={input}
       />
-      <View style={styles.input_btn}>
+      <View style={styles(darkModeS).input_btn}>
         <TouchableOpacity
           style={styles(darkModeS).submit_btn}
           onPress={onSubmit}
         >
-          <Text style={styles.submit_btn_text}>등록</Text>
+          <Text style={styles(darkModeS).submit_btn_text}>등록</Text>
         </TouchableOpacity>
       </View>
     </View>

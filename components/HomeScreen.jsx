@@ -1,10 +1,11 @@
-import { FlatList, Text, View, TouchableOpacity, Image } from "react-native";
+import { FlatList, View, TouchableOpacity, Image } from "react-native";
 import { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles";
 import { useRecoilValue } from "recoil";
 import { darkModeState, fontFamilyState, fontSizeState } from "../state";
+import Text from "../AppText";
 
 const RenderItem = (props) => {
   const darkModeS = useRecoilValue(darkModeState);
@@ -16,7 +17,13 @@ const RenderItem = (props) => {
   return (
     <View style={styles(darkModeS).wrapper}>
       <View>
-        <Text style={{ fontWeight: 500 }}>{item.time}</Text>
+        <Text
+          style={{
+            fontWeight: 500,
+          }}
+        >
+          {item.time}
+        </Text>
         <Text style={{ fontSize: 11, color: "gray" }}>{item.date}</Text>
         <Text style={{ marginTop: 5 }}>{item.contents}</Text>
       </View>
@@ -81,7 +88,6 @@ const HomeScreen = ({ navigation }) => {
 
   useEffect(() => {
     showItems();
-    console.log(darkModeS);
   }, [isFocused]);
 
   return (
