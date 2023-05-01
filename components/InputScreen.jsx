@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, TextInput } from "react-native";
+import { Text, View, TouchableOpacity, TextInput } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import moment from "moment";
@@ -6,7 +6,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles.js";
 import { useRecoilValue } from "recoil";
 import { darkModeState, fontFamilyState, fontSizeState } from "../state";
-import Text from "../AppText";
 
 const InputScreen = ({ route, navigation }) => {
   const darkModeS = useRecoilValue(darkModeState);
