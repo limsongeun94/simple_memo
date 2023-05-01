@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -7,6 +7,7 @@ import styles from "../styles.js";
 import { RadioButton } from "react-native-paper";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { darkModeState, fontFamilyState, fontSizeState } from "../state.js";
+import Text from "../AppText";
 
 const SetScreen = () => {
   const [darkMode, setDarkMode] = useRecoilState(darkModeState); // light | dark
@@ -29,6 +30,7 @@ const SetScreen = () => {
               status={darkMode == "light" ? "checked" : "unchecked"}
               onPress={() => setDarkMode("light")}
               color="#719FB0"
+              uncheckedColor={darkModeS == "light" ? "black" : "#DFD3C3"}
             />
             <Text>라이트 모드</Text>
           </View>
@@ -38,6 +40,7 @@ const SetScreen = () => {
               status={darkMode == "dark" ? "checked" : "unchecked"}
               onPress={() => setDarkMode("dark")}
               color="#719FB0"
+              uncheckedColor={darkModeS == "light" ? "black" : "#DFD3C3"}
             />
             <Text>다크 모드</Text>
           </View>
@@ -57,6 +60,7 @@ const SetScreen = () => {
               status={fontSize == "small" ? "checked" : "unchecked"}
               onPress={() => setFontSize("small")}
               color="#719FB0"
+              uncheckedColor={darkModeS == "light" ? "black" : "#DFD3C3"}
             />
             <Text>작게</Text>
           </View>
@@ -66,6 +70,7 @@ const SetScreen = () => {
               status={fontSize == "medium" ? "checked" : "unchecked"}
               onPress={() => setFontSize("medium")}
               color="#719FB0"
+              uncheckedColor={darkModeS == "light" ? "black" : "#DFD3C3"}
             />
             <Text>중간</Text>
           </View>
@@ -75,6 +80,7 @@ const SetScreen = () => {
               status={fontSize == "big" ? "checked" : "unchecked"}
               onPress={() => setFontSize("big")}
               color="#719FB0"
+              uncheckedColor={darkModeS == "light" ? "black" : "#DFD3C3"}
             />
             <Text>크게</Text>
           </View>
