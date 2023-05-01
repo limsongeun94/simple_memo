@@ -1,5 +1,6 @@
 import { View, StatusBar } from "react-native";
 import { useEffect, useState, useRef } from "react";
+import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles.js";
 import { RadioButton } from "react-native-paper";
@@ -8,6 +9,8 @@ import { darkModeState, fontFamilyState, fontSizeState } from "../state.js";
 import Text from "../AppText";
 
 const SetScreen = () => {
+  const isFocused = useIsFocused();
+
   const [darkMode, setDarkMode] = useRecoilState(darkModeState); // light | dark
   const [fontFamily, setFontFamily] = useRecoilState(fontFamilyState);
   const [fontSize, setFontSize] = useRecoilState(fontSizeState); // small | medium | big
@@ -15,6 +18,10 @@ const SetScreen = () => {
   const darkModeS = useRecoilValue(darkModeState);
   const fontFamilyS = useRecoilValue(fontFamilyState);
   const fontSizeS = useRecoilValue(fontSizeState);
+
+  const setMode = async () => {
+    await AsyncStorage.setItem("@modeKey", JSON.stringify(darkModeS));
+  };
 
   return (
     <View style={styles(darkModeS).container}>
