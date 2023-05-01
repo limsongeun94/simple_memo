@@ -1,7 +1,5 @@
-import { View } from "react-native";
+import { View, StatusBar } from "react-native";
 import { useEffect, useState, useRef } from "react";
-import { NavigationContainer, useIsFocused } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles.js";
 import { RadioButton } from "react-native-paper";
@@ -20,6 +18,7 @@ const SetScreen = () => {
 
   return (
     <View style={styles(darkModeS).container}>
+      <StatusBar />
       <Text style={styles(darkModeS).header}>간단한 메모</Text>
       <View style={styles(darkModeS).wrapper_set}>
         <Text style={{ marginBottom: 10, fontWeight: 500 }}>다크모드 설정</Text>

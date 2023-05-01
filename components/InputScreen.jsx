@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, TextInput } from "react-native";
+import { View, TouchableOpacity, TextInput, StatusBar } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import moment from "moment";
@@ -59,6 +59,7 @@ const InputScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles(darkModeS).container}>
+      <StatusBar />
       <Text style={styles(darkModeS).header}>간단한 메모</Text>
       <TextInput
         style={

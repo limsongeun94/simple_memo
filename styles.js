@@ -19,7 +19,7 @@ const styles = (props) => {
       padding: 30,
     },
     header: {
-      marginVertical: 15,
+      marginBottom: 15,
       fontSize: 22,
     },
     set_btn: {

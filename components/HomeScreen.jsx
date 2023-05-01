@@ -1,4 +1,10 @@
-import { FlatList, View, TouchableOpacity, Image } from "react-native";
+import {
+  FlatList,
+  View,
+  TouchableOpacity,
+  Image,
+  StatusBar,
+} from "react-native";
 import { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -16,6 +22,7 @@ const RenderItem = (props) => {
   const [menu, setMenu] = useState(false);
   return (
     <View style={styles(darkModeS).wrapper}>
+      <StatusBar />
       <View>
         <Text
           style={{
