@@ -1,7 +1,7 @@
 export const color = {
   cyan: "#719FB0",
   beige: "#FFFDF9",
-  pink: "#FFE3ED",
+  pink: "#FDEFF4",
 };
 
 export const color_dark = {

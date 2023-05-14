@@ -1,12 +1,10 @@
 import { StyleSheet, Dimensions } from "react-native";
 import { color, color_dark } from "./color";
-import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
-import { darkModeState, fontFamilyState, fontSizeState } from "./state";
+import { useRecoilValue } from "recoil";
+import { darkModeState } from "./state";
 
 const styles = (props) => {
   const darkModeS = useRecoilValue(darkModeState);
-  const fontFamilyS = useRecoilValue(fontFamilyState);
-  const fontSizeS = useRecoilValue(fontSizeState);
 
   const windowWidth = Dimensions.get("window").width;
 
@@ -21,11 +19,12 @@ const styles = (props) => {
     header: {
       marginBottom: 15,
       fontSize: 22,
+      color: darkModeS == "light" ? "black" : color_dark.beige,
     },
     set_btn: {
       position: "absolute",
       right: 30,
-      top: 50,
+      top: 45,
     },
     wrapper: {
       backgroundColor: darkModeS == "light" ? color.beige : color_dark.somke,
@@ -45,19 +44,20 @@ const styles = (props) => {
       bottom: 85,
       right: 60,
       elevation: 7,
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
+      padding: 10,
     },
-    add_btn_text: {
-      backgroundColor: color.beige,
+    add_btn_text_wrap: {
       height: 40,
       width: 40,
       borderRadius: 20,
+      backgroundColor: color.beige,
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    add_btn_text: {
       fontSize: 25,
       fontWeight: 500,
-      textAlign: "center",
-      justifyContent: "center",
       color: color.cyan,
     },
     input_box_unfocus: {

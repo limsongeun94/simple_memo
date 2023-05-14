@@ -1,6 +1,7 @@
 import {
   FlatList,
   View,
+  Text,
   TouchableOpacity,
   Image,
   StatusBar,
@@ -10,13 +11,12 @@ import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles";
 import { useRecoilValue } from "recoil";
-import { darkModeState, fontFamilyState, fontSizeState } from "../state";
-import Text from "../AppText";
+import { darkModeState, fontFamilyState } from "../state";
+import AppText from "../AppText";
 
 const RenderItem = (props) => {
   const darkModeS = useRecoilValue(darkModeState);
   const fontFamilyS = useRecoilValue(fontFamilyState);
-  const fontSizeS = useRecoilValue(fontSizeState);
 
   const item = props.item;
   const [menu, setMenu] = useState(false);
@@ -24,22 +24,16 @@ const RenderItem = (props) => {
     <View style={styles(darkModeS).wrapper}>
       <StatusBar />
       <View>
-        <Text
-          style={{
-            fontWeight: 500,
-          }}
-        >
-          {item.time}
-        </Text>
-        <Text style={{ fontSize: 11, color: "gray" }}>{item.date}</Text>
-        <Text style={{ marginTop: 5 }}>{item.contents}</Text>
+        <AppText>{item.time}</AppText>
+        <AppText style={{ fontSize: 11, color: "gray" }}>{item.date}</AppText>
+        <AppText style={{ marginTop: 5 }}>{item.contents}</AppText>
       </View>
       <View>
         <TouchableOpacity
           hitSlop={{ top: 5, bottom: 5, left: 25, right: 25 }}
           onPress={menu ? () => setMenu(false) : () => setMenu(true)}
         >
-          <Text style={{ color: "gray", fontSize: 17 }}>⋮</Text>
+          <AppText style={{ color: "gray", fontSize: 17 }}>⋮</AppText>
         </TouchableOpacity>
       </View>
       <View
@@ -51,13 +45,13 @@ const RenderItem = (props) => {
           style={styles(darkModeS).delete_update_btn}
           onPress={() => props.onUpdate(item.id)}
         >
-          <Text>수정</Text>
+          <AppText>수정</AppText>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles(darkModeS).delete_update_btn}
           onPress={() => props.onDelete(item.id)}
         >
-          <Text>삭제</Text>
+          <AppText>삭제</AppText>
         </TouchableOpacity>
       </View>
     </View>
@@ -66,8 +60,6 @@ const RenderItem = (props) => {
 
 const HomeScreen = ({ navigation }) => {
   const darkModeS = useRecoilValue(darkModeState);
-  const fontFamilyS = useRecoilValue(fontFamilyState);
-  const fontSizeS = useRecoilValue(fontSizeState);
 
   const isFocused = useIsFocused();
   const [memo, setMemo] = useState([]);
@@ -99,21 +91,21 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles(darkModeS).container}>
-      <Text style={styles(darkModeS).header}>간단한 메모</Text>
+      <Text style={styles(darkModeS).header}>MEMO150</Text>
       <TouchableOpacity
         style={styles(darkModeS).set_btn}
         onPress={() => navigation.navigate("Set")}
       >
         <Image
           style={{
-            width: 25,
-            height: 25,
+            width: 28,
+            height: 28,
           }}
           source={require("../setting_icon.png")}
         />
       </TouchableOpacity>
       <FlatList
-        data={memo}
+        data={memo.reverse()}
         renderItem={(item) => (
           <RenderItem {...item} onDelete={onDelete} onUpdate={onUpdate} />
         )}
@@ -123,7 +115,9 @@ const HomeScreen = ({ navigation }) => {
         style={styles(darkModeS).add_btn}
         onPress={() => navigation.navigate("Input")}
       >
-        <Text style={styles(darkModeS).add_btn_text}>+</Text>
+        <View style={styles(darkModeS).add_btn_text_wrap}>
+          <Text style={styles(darkModeS).add_btn_text}>+</Text>
+        </View>
       </TouchableOpacity>
     </View>
   );

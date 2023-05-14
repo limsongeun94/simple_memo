@@ -1,17 +1,21 @@
-import { View, TouchableOpacity, TextInput, StatusBar } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  StatusBar,
+} from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import moment from "moment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles.js";
+import fontStyles from "../AppText.js";
 import { useRecoilValue } from "recoil";
-import { darkModeState, fontFamilyState, fontSizeState } from "../state";
-import Text from "../AppText";
+import { darkModeState } from "../state";
 
 const InputScreen = ({ route, navigation }) => {
   const darkModeS = useRecoilValue(darkModeState);
-  const fontFamilyS = useRecoilValue(fontFamilyState);
-  const fontSizeS = useRecoilValue(fontSizeState);
 
   const isFocused = useIsFocused();
   const input = useRef();
@@ -60,13 +64,21 @@ const InputScreen = ({ route, navigation }) => {
   return (
     <View style={styles(darkModeS).container}>
       <StatusBar />
-      <Text style={styles(darkModeS).header}>간단한 메모</Text>
+      <Text style={styles(darkModeS).header}>MEMO150</Text>
       <TextInput
-        style={
-          focus
+        style={{
+          ...fontStyles.ibm,
+          // ...(fontFamilyS == "ibm"
+          //   ? fontStyles.ibm
+          //   : fontFamilyS == "gamjaflower"
+          //   ? fontStyles.gamjaflower
+          //   : fontFamilyS == "gowundodum"
+          //   ? fontStyles.gowundodum
+          //   : {}),
+          ...(focus
             ? styles(darkModeS).input_box_onfocus
-            : styles(darkModeS).input_box_unfocus
-        }
+            : styles(darkModeS).input_box_unfocus),
+        }}
         multiline={true}
         numberOfLines={7}
         maxLength={150}
