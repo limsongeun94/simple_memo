@@ -35,8 +35,8 @@ const InputScreen = ({ route, navigation }) => {
         date: moment().format(`${"YYYY"}년 ${"MM"}월 ${"DD"}일`),
         contents: text,
       };
-      setMemo([...memo, listItem]);
-      await AsyncStorage.setItem("@key", JSON.stringify([...memo, listItem]));
+      // setMemo([...memo, listItem]);
+      await AsyncStorage.setItem("@key", JSON.stringify([listItem, ...memo]));
       input.current.clear();
       navigation.push("Home");
     } else {
@@ -68,13 +68,6 @@ const InputScreen = ({ route, navigation }) => {
       <TextInput
         style={{
           ...fontStyles.ibm,
-          // ...(fontFamilyS == "ibm"
-          //   ? fontStyles.ibm
-          //   : fontFamilyS == "gamjaflower"
-          //   ? fontStyles.gamjaflower
-          //   : fontFamilyS == "gowundodum"
-          //   ? fontStyles.gowundodum
-          //   : {}),
           ...(focus
             ? styles(darkModeS).input_box_onfocus
             : styles(darkModeS).input_box_unfocus),

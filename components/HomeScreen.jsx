@@ -81,7 +81,6 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const onUpdate = (id) => {
-    console.log("홈스크린", id);
     navigation.navigate("Input", { id: id });
   };
 
@@ -105,7 +104,7 @@ const HomeScreen = ({ navigation }) => {
         />
       </TouchableOpacity>
       <FlatList
-        data={memo.reverse()}
+        data={memo}
         renderItem={(item) => (
           <RenderItem {...item} onDelete={onDelete} onUpdate={onUpdate} />
         )}

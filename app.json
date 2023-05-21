@@ -2,9 +2,9 @@
   "expo": {
     "name": "simple_memo",
     "slug": "simple_memo",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/memo_icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash_title.png",
@@ -16,13 +16,20 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 2,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "./assets/big_splash.png",
+        "backgroundColor": "#FFFDF9"
+      },
+      "package": "com.songeun94.simple_memo"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "529e3336-a72d-4c78-8a10-c2839667734c"
+      }
     }
   }
 }
